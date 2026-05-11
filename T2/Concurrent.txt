@@ -1,0 +1,25 @@
+1.ConcurrentModificationException happens when a collection is modified while it is being iterated.
+In this case, an ArrayList was being looped through, and at the same time elements were either added or removed from that list.
+Java collections such as ArrayList use fail-fast iterators.If the iterator detects that the collection was changed outside the
+iterator during iteration, it immediately throws ConcurrentModificationException.
+
+for (LoanAccont la : accounts) {
+    if (la.getOutstandingBalance()< 0) {
+        transactions.remove(la);
+    }
+}
+
+The exception was most likely caused by removing accounts from the account list inside a 
+loop that was iterating over the same list.
+
+while(iterator.hasNext()) {
+    LoanAccont tx = iterator.next();
+    accounts.remove(tx);
+}
+Instead of removing the element directly from the list, removal should be done using the
+ iterator itself.
+
+ iterator.remove();
+
+ This is safe because the iterator updates its internal state correctly after removal 
+ and avoids the fail-fast exception.
